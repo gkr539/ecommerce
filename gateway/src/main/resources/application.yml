@@ -1,0 +1,77 @@
+server:
+  port: 9000
+  
+
+
+spring:
+  application:
+    name: gateway-service
+   
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true    
+      routes:         
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+          filters:
+            - name: CircuitBreaker 
+              args:
+                name: order-service
+                fallbackuri: forward:/orderFailure
+        - id: batchOrder-service
+          uri: lb://order-service
+          predicates:
+            - Path=/batchOrder/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: batchOrder-service
+                fallbackuri: forward:/batchOrderFailure
+                 
+           
+           
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payment/** 
+          filters:
+            - name: CircuitBreaker 
+              args:
+                name: payment-service
+                fallbackuri: forward:/paymentFailure
+                
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+        
+
+eureka:
+  client:
+    register-with-eureka:  true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+
+      
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutMilliSeconds: 5000
+
