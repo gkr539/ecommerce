@@ -23,10 +23,4 @@ public class SwaggerConfig {
 				.build();
 	}
 
-//	private ApiInfo apiInfo() {
-//		return new ApiInfoBuilder().title("Order Service")
-//				.termsOfServiceUrl("https://www.youtube.com/channel/UCORuRdpN2QTCKnsuEaeK-kQ")
-//				.license("Java_Gyan_Mantra License")
-//				.licenseUrl("https://www.youtube.com/channel/UCORuRdpN2QTCKnsuEaeK-kQ").version("1.0").build();
-//	}
 }

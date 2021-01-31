@@ -22,9 +22,7 @@ import com.egen.orderservicee.shared.OrderRequest;
 @RequestMapping("/batchOrder")
 @EnableBinding(Source.class)
 public class BatchOrderController {
-	@Autowired
-	private OrderService orderService;
-	
+
 	private Logger log = LoggerFactory.getLogger(BatchOrderController.class);
 	@Autowired
 	private KafkaTemplate<String, OrderRequest> template;
