@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,7 +42,7 @@ public class OrderController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping("/createOrder")
 	public OrderResponse createOrder(@RequestBody OrderRequest request) throws JsonProcessingException {
-		log.info("In order-service order controller create request ");
+		log.info("In order-service order controller create request " + request.getOrder().getId());	
 		return orderService.saveOrder(request);
 	}
 	
@@ -54,16 +56,12 @@ public class OrderController {
 		catch(Exception e) {
 			log.error("Error cancelling order with id "+ id);
 			return new ResponseEntity<>("No Order found with id " + id, HttpStatus.NOT_FOUND);
-		}
-		
-		
+		}			
 	}
 	
 	@PostMapping("/updateOrder/{id}")
 	public Order updateOrder(@RequestBody Order order, @PathVariable Long id) {
-
-		return orderService.updateOrder(id, order);
-		
+		return orderService.updateOrder(id, order);	
 	}
 	
 	@GetMapping("/getOrderById/{id}")
@@ -73,6 +71,11 @@ public class OrderController {
 		return new ResponseEntity<Order>(order, HttpStatus.OK);
 	}
 
+	@GetMapping("/getAllOrders")
+	public List<Order> getAllOrders(){
+		return orderService.getAllOrders();
+	}
+	
 
 	
 

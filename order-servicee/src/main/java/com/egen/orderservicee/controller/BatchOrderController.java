@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.egen.orderservicee.entity.Order;
-import com.egen.orderservicee.service.OrderService;
 import com.egen.orderservicee.shared.OrderRequest;
 
 @RestController
 @RequestMapping("/batchOrder")
 @EnableBinding(Source.class)
 public class BatchOrderController {
-
+	
 	private Logger log = LoggerFactory.getLogger(BatchOrderController.class);
 	@Autowired
 	private KafkaTemplate<String, OrderRequest> template;
@@ -40,13 +39,14 @@ public class BatchOrderController {
 	public String createBatchOrder(@RequestBody OrderRequest request) {
 		log.info("batch order added to queue successfully");
 		template.send(topic, request);
-		return "{\"status\": \"Order request created\"}";
-	
+		return "{\"status\": \"Order request created\"}";	
 	}
 	
 	@ResponseStatus(value = HttpStatus.ACCEPTED)
 	@PostMapping("/updateBatchOrder/{id}")
 	public String updateBatchOrder(@RequestBody Order order, @PathVariable int id) {
+		OrderRequest orderRequest = new OrderRequest(order, null);
+		template.send(topic, orderRequest);
 		log.info("update order request added to queue successfully");  
 		return "Update Order request created";
 	

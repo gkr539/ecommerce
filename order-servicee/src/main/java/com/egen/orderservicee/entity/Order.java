@@ -38,6 +38,7 @@ public class Order implements Serializable {
 	
 	private String order_id;
 	private String name;
+	private Long customer_id;
 	private double price;
 	@Convert(converter = AddressConverter.class)
 	@Column(name ="billing_address")
@@ -64,13 +65,14 @@ public class Order implements Serializable {
 	@Convert(converter = ShippingDetailsConverter.class)
 	private ShippingDetails shippingDetails;
 	
-	
 
 
-
-
-
-
+	public Long getCustomer_id() {
+		return customer_id;
+	}
+	public void setCustomer_id(Long customer_id) {
+		this.customer_id = customer_id;
+	}
 	public ShippingDetails getShippingDetails() {
 		return shippingDetails;
 	}
@@ -148,11 +150,12 @@ public class Order implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", order_id=" + order_id + ", name=" + name + ", price=" + price
-				+ ", billingAddress=" + billingAddress + ", shippingAddress=" + shippingAddress + ", orderItems="
-				+ orderItems + ", createdAt=" + createdAt + ", modifiedAt=" + modifiedAt + ", orderStatus="
-				+ orderStatus + ", shippingDetails=" + shippingDetails + "]";
+		return "Order [id=" + id + ", order_id=" + order_id + ", name=" + name + ", customer_id=" + customer_id
+				+ ", price=" + price + ", billingAddress=" + billingAddress + ", shippingAddress=" + shippingAddress
+				+ ", orderItems=" + orderItems + ", createdAt=" + createdAt + ", modifiedAt=" + modifiedAt
+				+ ", orderStatus=" + orderStatus + ", shippingDetails=" + shippingDetails + "]";
 	}
+	
 	
 	
 	

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -84,10 +85,7 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 	
-	public String getHashKey(String key) {
-		
-		
-		
+	public String getHashKey(String key) {		
 		try { 
 			MessageDigest md = MessageDigest.getInstance("MD5");
 		    md.update(key.getBytes());
@@ -112,9 +110,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		else {
 			return "Order Not Found";
-		}
-		
-		
+		}		
 	}
 	
 	
@@ -135,7 +131,9 @@ public class OrderServiceImpl implements OrderService {
 					.setPrice(order.getPrice())
 					.setShippingAddress(order.getShippingAddress())
 					.setOrderStatus(order.getOrderStatus())
-					.setOrderItems(order.getOrderItems());
+					.setOrderItems(order.getOrderItems())
+					.setName(order.getName());
+					
 		
 		orderRepository.save(stored_order);
 		return stored_order;
@@ -145,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> getAllOrders() {
 		return orderRepository.findAll();
 	}
+
 	
 
 }

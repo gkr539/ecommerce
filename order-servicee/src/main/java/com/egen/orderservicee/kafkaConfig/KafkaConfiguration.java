@@ -46,6 +46,7 @@ public class KafkaConfiguration {
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, "batchOrder-1");
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);	
+		//config.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 1000);
 		return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(OrderRequest.class));
 	}
 	
@@ -56,6 +57,7 @@ public class KafkaConfiguration {
 		factory.setBatchListener(true);
 		factory.setConsumerFactory(orderConsumerFactory());
 		factory.getContainerProperties().setAckMode(AckMode.BATCH);
+		
 		return factory;
 	}
 	
